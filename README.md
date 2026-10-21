@@ -5,33 +5,33 @@ von Embeddings für verschiedene Zeitperioden (jährlich, quartalsweise).
 
 ## Vorgehen
 
-1. Korpusaufbau (je Quelle)
+1. Korpusaufbau (je Quelle; [src/zeitenwende_sgns/sources/](src/zeitenwende_sgns/sources/))
    - Datendownload
    - PDF-Text-Extraktion
    - Output: Rohdaten (Parquet)
-2. Vorverarbeitung mit Stanza oder simpleren (weniger rechenintensiven) Verfahren
+2. Vorverarbeitung mit Stanza oder alternativen (weniger rechenintensiven) Verfahren ([src/preprocess.py](src/preprocess.py))
    - Tokenisierung
    - Lemmatisierung
    - POS-Tagging
    - Satzgrenzen
    - Output: Vorverarbeitete Daten (Parquet)
-3. Analyse I
+3. Analyse I ([notebooks/](notebooks/))
    - Frequenzen der Zielwörter je Zeitscheibe und Quelle überprüfen
    - Je nach Distribution Periodisierung wählen
-4. Vorbereitung für Training
+4. Filtern und Sampling ([src/zeitenwende_sgns/split.py](src/zeitenwende_sgns/split.py))
    - Evtl. Sampling (Frequenzen der Zielwörter normalisieren)
    - Splitten in Zeitscheiben
-   - Als `corpus_file` speichern
-5. Training (SGNS mit gensim Word2vec)
-   - Embeddings trainieren
+   - Als `corpus_file`s speichern
+5. Training ([src/zeitenwende_sgns/train.py](src/zeitenwende_sgns/train.py))
+   - Embeddings trainieren (SGNS mit gensim Word2Vec)
      1. Ein Modell je Quelle und Zeitscheibe
      2. Ein Modell über alle Quellen je Zeitscheibe
    - Output: Modelle je Zeitscheibe(/Quelle)
-6. Procrustes-Alignment
-   - Analog zu 5.
+6. Procrustes-Alignment ([src/zeitenwende_sgns/align.py](src/zeitenwende_sgns/align.py))
+   - Je Subkorpus (analog zu 5.)
    - Output:
-     - Ein Gesamtmodell
-     - Ein Modell je Quelle
-7. Analyse II
+     - Ein aligniertes Gesamtmodell über alle Quellen
+     - Ein aligniertes Modell je Quelle
+7. Analyse II ([notebooks/](notebooks/))
    - Qualitative Sichtung der Vektoren, Nachbarn von Zielwörtern, Clustering
-   - Visualisierung  
+   - Visualisierung ([src/zeitenwende_sgns](src/zeitenwende_sgns))
