@@ -5,15 +5,21 @@ von Embeddings für verschiedene Zeitperioden (jährlich, quartalsweise).
 
 ## Vorgehen
 
-1. Korpusaufbau (je Quelle; [src/zeitenwende_sgns/sources/](src/zeitenwende_sgns/sources/))
-   - Datendownload
+1. Korpusaufbau (je Quelle; [src/zeitenwende_sgns/collect_data/](src/zeitenwende_sgns/collect_data/))
+   - Ggf. Download (für Testdaten)
+   - Vorauswahl relevanter Jahre
    - PDF-Text-Extraktion
+     - Parallel: Evaluation des Outputs verschiedener Extraktions-Bibliotheken
    - Output: Rohdaten (Parquet)
-2. Vorverarbeitung mit Stanza oder alternativen (weniger rechenintensiven) Verfahren ([src/preprocess.py](src/preprocess.py))
-   - Tokenisierung
-   - Lemmatisierung
-   - POS-Tagging
-   - Satzgrenzen
+2. Vorverarbeitung ([src/preprocess.py](src/preprocess.py))
+   - Filterung
+     - Deduplikation (soweit möglich)
+     - Entfernen extrem kurzer/langer Dokumente
+   - Stanza o.ä.
+     - Tokenisierung
+     - Lemmatisierung
+     - POS-Tagging
+     - Satzgrenzen
    - Output: Vorverarbeitete Daten (Parquet)
 3. Analyse I ([notebooks/](notebooks/))
    - Frequenzen der Zielwörter je Zeitscheibe und Quelle überprüfen
