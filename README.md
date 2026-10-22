@@ -10,7 +10,7 @@ von Embeddings für verschiedene Zeitperioden (jährlich, quartalsweise).
    - Vorauswahl relevanter Jahre
    - PDF-Text-Extraktion
      - Parallel: Evaluation des Outputs verschiedener Extraktions-Bibliotheken
-   - Output: Rohdaten (Parquet)
+   - Output: Rohdaten (Parquet) in `data/raw/<source>` mit Datum, Dokument-ID (Hash), Rohtext
 2. Vorverarbeitung ([src/preprocess.py](src/preprocess.py))
    - Filterung
      - Deduplikation (soweit möglich)

@@ -1,4 +1,6 @@
-import pandas as pd
+from datetime import date
+
+import polars as pl
 import requests
 from tqdm import tqdm
 
@@ -37,27 +39,29 @@ def fetch_cpp_bt_corpus():
             bar.update(size)
 
 
-def load_cpp_bt_corpus() -> pd.DataFrame:
+def load_cpp_bt_corpus() -> pl.LazyFrame:
     if not CORPUS_PATH.exists():
         fetch_cpp_bt_corpus()
-    return pd.read_parquet(CORPUS_PATH)
+    return pl.scan_parquet(CORPUS_PATH)
 
 
-df = load_cpp_bt_corpus()
+if __name__ == "__main__":
+    START_YEAR = 2014
+    END_YEAR = 2025
 
-START_YEAR = "2014"
-END_YEAR = "2025"
+    df = (
+        load_cpp_bt_corpus()
+        .select(pl.col("sitzung_datum").alias("date"), pl.col("rede_text").alias("text"))
+        .filter(pl.col("date").is_between(date(START_YEAR, 1, 1), date(END_YEAR, 12, 31)))
+        .sort("date", maintain_order=True)
+        .with_columns(
+            pl.col("text").map_elements(create_doc_id, return_dtype=pl.String).alias("doc_id")
+        )
+        .unique(subset="doc_id", keep="first", maintain_order=True)
+        .select("date", "doc_id", "text")
+        .collect()
+    )
 
-df.index = pd.to_datetime(df.sitzung_datum).rename("date")
-df = df.sort_index()
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-df = df.loc[START_YEAR:END_YEAR, ["rede_text"]].rename(columns={"rede_text": "text"})
-
-df["doc_id"] = df.text.map(create_doc_id)
-
-df = df.drop_duplicates(subset=["doc_id"])
-
-
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
-df[["doc_id", "text"]].to_csv(OUTPUT_DIR / "cpp_bt.csv")
+    df.write_parquet(OUTPUT_DIR / "cpp_bt.parquet")
