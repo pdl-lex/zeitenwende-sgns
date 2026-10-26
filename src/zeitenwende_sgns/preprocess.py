@@ -1,4 +1,5 @@
 import os
+import re
 from multiprocessing import Pool
 
 import polars as pl
@@ -13,7 +14,13 @@ TOKEN = pl.Struct(
 )
 ANNOTATION = pl.List(pl.List(TOKEN))
 
-MAX_CHARS = 200_000
+MAX_CHUNK_CHARS = 100_000
+
+CHUNK_BOUNDARIES = [
+    re.compile(r"\n\s*\n"),
+    re.compile(r"[.!?…][\"'“”„»«)]*\s+"),
+    re.compile(r"\s+"),
+]
 
 nlp = None
 
@@ -46,26 +53,51 @@ def to_records(doc):
     ]
 
 
+def find_cut(text, max_chars):
+    start = max_chars // 2
+    for pattern in CHUNK_BOUNDARIES:
+        match = None
+        for match in pattern.finditer(text, start, max_chars):
+            pass
+        if match is not None:
+            return match.end()
+    return max_chars
+
+
+def split_text(text, max_chars=MAX_CHUNK_CHARS):
+    chunks = []
+    while len(text) > max_chars:
+        cut = find_cut(text, max_chars)
+        chunks.append(text[:cut])
+        text = text[cut:]
+    chunks.append(text)
+    return [chunk for chunk in chunks if chunk.strip()]
+
+
 def annotate(text):
-    return to_records(nlp(text))
+    return [
+        sentence for chunk in split_text(text) for sentence in to_records(nlp(chunk))
+    ]
 
 
 def annotate_batch(texts):
-    """Annotate texts in bulk; on failure, retry one by one so a single bad text
-    only loses itself. Failed texts get None and are reported with their error."""
+    """Annotate texts in bulk, splitting long texts into chunks and joining their
+    sentences afterwards. On failure, retry one by one so a single bad text only
+    loses itself. Failed texts get None and are reported with their error."""
     annotations = [[] if not text.strip() else None for text in texts]
     errors = {}
 
     todo = [i for i, text in enumerate(texts) if text.strip()]
-    for i in todo:
-        if len(texts[i]) > MAX_CHARS:
-            errors[i] = f"too long ({len(texts[i]):,} chars)"
-    todo = [i for i in todo if i not in errors]
+    chunks = [(i, chunk) for i in todo for chunk in split_text(texts[i])]
 
     try:
-        docs = nlp.bulk_process([stanza.Document([], text=texts[i]) for i in todo])
-        for i, doc in zip(todo, docs):
-            annotations[i] = to_records(doc)
+        docs = nlp.bulk_process(
+            [stanza.Document([], text=chunk) for _, chunk in chunks]
+        )
+        for i in todo:
+            annotations[i] = []
+        for (i, _), doc in zip(chunks, docs):
+            annotations[i].extend(to_records(doc))
     except Exception:  # noqa: BLE001 - any failure falls back to one-by-one
         for i in todo:
             try:
