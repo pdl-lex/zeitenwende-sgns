@@ -20,7 +20,8 @@ von Embeddings für verschiedene Zeitperioden (jährlich, quartalsweise).
      - Lemmatisierung
      - POS-Tagging
      - Satzgrenzen
-   - Output: Vorverarbeitete Daten (Parquet)
+   - Output: Vorverarbeitete Daten (Parquet-Shards in `data/preprocessed/<source>/`)
+   - Laufzeit: siehe [Laufzeit der Vorverarbeitung](#laufzeit-der-vorverarbeitung)
 3. Analyse I ([notebooks/](notebooks/))
    - Frequenzen der Zielwörter je Zeitscheibe und Quelle überprüfen
    - Je nach Distribution Periodisierung wählen
@@ -41,3 +42,47 @@ von Embeddings für verschiedene Zeitperioden (jährlich, quartalsweise).
 7. Analyse II ([notebooks/](notebooks/))
    - Qualitative Sichtung der Vektoren, Nachbarn von Zielwörtern, Clustering
    - Visualisierung ([src/zeitenwende_sgns](src/zeitenwende_sgns))
+
+## Laufzeit der Vorverarbeitung
+
+Referenzlauf: `cpp_bt` (Bundestagsreden, 77.517 Dokumente, 307 Mio. Zeichen, 51,5 Mio. Tokens)
+auf einem Apple M3 (8 Kerne, 24 GB RAM), 8 Worker, nur CPU. Dauer: ca. 66 Minuten.
+
+| Durchsatz pro Stunde | |
+|---|---|
+| Tokens (Stanza-Wörter) | ~46 Mio. |
+| Zeichen | ~274 Mio. |
+| Bytes (UTF-8) | ~280 MB |
+
+Faustregeln:
+
+- 1 GB Rohtext ≈ 3,6 h
+- 100 Mio. Tokens ≈ 2,2 h
+- Ca. 6 Zeichen pro Token (deutscher Text)
+
+Für die Schätzung Zeichen oder Bytes verwenden, nicht die Anzahl der Dokumente: Die Dauer hängt
+von der Textlänge ab, und die Dokumentlängen schwanken stark (im Referenzlauf zwischen ca. 10 und
+31 Dokumenten/s).
+
+### ETA schätzen
+
+1. Zeichenzahl des Rohkorpus bestimmen und durch den Referenzdurchsatz teilen:
+
+   ```python
+   import polars as pl
+
+   n_chars = (
+       pl.scan_parquet("data/raw/<source>/<source>.parquet")
+       .select(pl.col("text").str.len_chars().sum())
+       .collect()
+       .item()
+   )
+   print(f"{n_chars / 274e6:.1f} h")
+   ```
+
+2. Bei anderer Hardware oder anderer Textsorte (z. B. Zeitungstext aus PDFs mit OCR-Rauschen)
+   den Durchsatz an einer Stichprobe neu messen, z. B. `preprocess(..., limit=2000)` mit
+   eigenem `output_dir`. Die ersten Minuten (Laden der Modelle) nicht mitrechnen. Der Durchsatz
+   skaliert ungefähr linear mit der Anzahl der CPU-Kerne.
+
+Unterbrochene Läufe können einfach neu gestartet werden; fertige Shards werden übersprungen.
