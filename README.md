@@ -11,15 +11,16 @@ von Embeddings für verschiedene Zeitperioden (jährlich, quartalsweise).
    - PDF-Text-Extraktion
      - Parallel: Evaluation des Outputs verschiedener Extraktions-Bibliotheken
    - Output: Rohdaten (Parquet) in `data/raw/<source>` mit Datum, Dokument-ID (Hash), Rohtext
-2. Vorverarbeitung ([src/preprocess.py](src/preprocess.py))
+2. Vorverarbeitung ([src/zeitenwende_sgns/preprocess.py](src/zeitenwende_sgns/preprocess.py))
    - Filterung
      - Deduplikation (soweit möglich)
      - Entfernen extrem kurzer/langer Dokumente
-   - Stanza o.ä.
-     - Tokenisierung
-     - Lemmatisierung
-     - POS-Tagging
-     - Satzgrenzen
+   - Tokenisierung, Satzgrenzen und POS-Tagging mit spaCy (`de_core_news_sm`); Bindestrich-Komposita
+     (z. B. „NATO-Partner“) bleiben ein Token
+   - Lemmatisierung mit simplemma; alte ß-Schreibung in Lemmata (Rußland, Ausschuß) wird korrigiert
+   - Lemma-Overrides aus `data/lemma_overrides.csv` (Spalten `form`, `lemma`), um alle Formen der
+     Zielwörter sicher auf das Zielwort zurückzuführen. Einen Entwurf erzeugt
+     `targets.draft_overrides` (siehe [notebooks/analyze_preprocessed.ipynb](notebooks/analyze_preprocessed.ipynb))
    - Output: Vorverarbeitete Daten (Parquet-Shards in `data/preprocessed/<source>/`)
    - Laufzeit: siehe [Laufzeit der Vorverarbeitung](#laufzeit-der-vorverarbeitung)
 3. Analyse I ([notebooks/](notebooks/))
@@ -45,44 +46,28 @@ von Embeddings für verschiedene Zeitperioden (jährlich, quartalsweise).
 
 ## Laufzeit der Vorverarbeitung
 
-Referenzlauf: `cpp_bt` (Bundestagsreden, 77.517 Dokumente, 307 Mio. Zeichen, 51,5 Mio. Tokens)
-auf einem Apple M3 (8 Kerne, 24 GB RAM), 8 Worker, nur CPU. Dauer: ca. 66 Minuten.
-
-| Durchsatz pro Stunde | |
-| --- | --- |
-| Tokens (Stanza-Wörter) | ~46 Mio. |
-| Zeichen | ~274 Mio. |
-| Bytes (UTF-8) | ~280 MB |
+Referenzlauf: `cpp_bt` (Bundestagsreden, 77.517 Dokumente, 307 Mio. Zeichen, 50,4 Mio. Tokens)
+auf einem Apple M3 (8 Kerne, 24 GB RAM), 8 Worker. Dauer: ca. 5 Minuten (mit Stanza statt
+spaCy/simplemma: ca. 66 Minuten).
 
 Faustregeln:
 
-- 1 GB Rohtext ≈ 3,6 h
-- 100 Mio. Tokens ≈ 2,2 h
-- Ca. 6 Zeichen pro Token (deutscher Text)
+- 1 GB Rohtext ≈ 17 min
+- 100 Mio. Tokens ≈ 10 min
 
-Für die Schätzung Zeichen oder Bytes verwenden, nicht die Anzahl der Dokumente: Die Dauer hängt
-von der Textlänge ab, und die Dokumentlängen schwanken stark (im Referenzlauf zwischen ca. 10 und
-31 Dokumenten/s).
+Für eine Schätzung die Zeichenzahl des Rohkorpus durch den Referenzdurchsatz (ca. 58 Mio. Zeichen
+pro Minute) teilen:
 
-### ETA schätzen
+```python
+import polars as pl
 
-1. Zeichenzahl des Rohkorpus bestimmen und durch den Referenzdurchsatz teilen:
-
-   ```python
-   import polars as pl
-
-   n_chars = (
-       pl.scan_parquet("data/raw/<source>/<source>.parquet")
-       .select(pl.col("text").str.len_chars().sum())
-       .collect()
-       .item()
-   )
-   print(f"{n_chars / 274e6:.1f} h")
-   ```
-
-2. Bei anderer Hardware oder anderer Textsorte (z. B. Zeitungstext aus PDFs mit OCR-Rauschen)
-   den Durchsatz an einer Stichprobe neu messen, z. B. `preprocess(..., limit=2000)` mit
-   eigenem `output_dir`. Die ersten Minuten (Laden der Modelle) nicht mitrechnen. Der Durchsatz
-   skaliert ungefähr linear mit der Anzahl der CPU-Kerne.
+n_chars = (
+    pl.scan_parquet("data/raw/<source>/<source>.parquet")
+    .select(pl.col("text").str.len_chars().sum())
+    .collect()
+    .item()
+)
+print(f"{n_chars / 58e6:.0f} min")
+```
 
 Unterbrochene Läufe können einfach neu gestartet werden; fertige Shards werden übersprungen.
