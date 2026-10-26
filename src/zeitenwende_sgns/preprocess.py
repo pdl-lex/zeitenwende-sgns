@@ -13,7 +13,6 @@ TOKEN = pl.Struct(
 )
 ANNOTATION = pl.List(pl.List(TOKEN))
 
-# Texts longer than this are skipped instead of risking memory blow-ups
 MAX_CHARS = 200_000
 
 nlp = None
@@ -23,7 +22,6 @@ def init_worker():
     """Load one single-threaded pipeline per worker (faster than one multi-threaded one)"""
     global nlp
     torch.set_num_threads(1)
-    # The POS model without character LM is ~4x faster; lemmas are almost identical
     nlp = stanza.Pipeline(
         "de",
         processors="tokenize,mwt,pos,lemma",
@@ -87,8 +85,6 @@ def process_shard(args):
         pl.Series("text_preprocessed", annotations, dtype=ANNOTATION)
     )
 
-    # Write to a temporary file first so an interrupted write never leaves
-    # a truncated shard that would be mistaken for a finished one
     tmp_path = output_path.with_suffix(".tmp")
     df.write_parquet(tmp_path)
     tmp_path.rename(output_path)
@@ -124,8 +120,6 @@ def preprocess(input_path, output_dir, shard_size=100, workers=None, limit=None)
     done = n_docs - sum(length for *_, length in pending)
     failed = 0
 
-    # Leaving the pool's context terminates the workers right away, so Ctrl-C or a
-    # crash stops everything; finished shards are kept and skipped on the next run
     with (
         tqdm(total=n_docs, initial=done, unit="doc", smoothing=0.05) as bar,
         Pool(workers or os.cpu_count(), initializer=init_worker) as pool,
