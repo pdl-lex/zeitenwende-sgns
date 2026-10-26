@@ -8,9 +8,12 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
+    "de-core-news-sm",
+    "ipykernel>=7.4.0",
     "polars>=2.0.0",
     "requests>=2.34.2",
-    "stanza>=1.15.0",
+    "simplemma>=2.0.0",
+    "spacy>=3.8.16",
     "tqdm>=4.70.1",
 ]
 
@@ -20,3 +23,6 @@ zeitenwende-sgns = "zeitenwende_sgns:main"
 [build-system]
 requires = ["uv_build>=0.13.0,<0.14.0"]
 build-backend = "uv_build"
+
+[tool.uv.sources]
+de-core-news-sm = { url = "https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.8.0/de_core_news_sm-3.8.0-py3-none-any.whl" }
