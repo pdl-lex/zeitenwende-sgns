@@ -49,7 +49,7 @@ Referenzlauf: `cpp_bt` (Bundestagsreden, 77.517 Dokumente, 307 Mio. Zeichen, 51,
 auf einem Apple M3 (8 Kerne, 24 GB RAM), 8 Worker, nur CPU. Dauer: ca. 66 Minuten.
 
 | Durchsatz pro Stunde | |
-|---|---|
+| --- | --- |
 | Tokens (Stanza-Wörter) | ~46 Mio. |
 | Zeichen | ~274 Mio. |
 | Bytes (UTF-8) | ~280 MB |
