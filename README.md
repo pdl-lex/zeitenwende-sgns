@@ -5,8 +5,8 @@ von Embeddings für verschiedene Zeitperioden (jährlich, quartalsweise).
 
 ## Vorgehen
 
-Eingabe ist neben den Korpora die Masterliste der Zielwörter in
-[resources/zielwoerter.tsv](resources/zielwoerter.tsv) (siehe [resources/README.md](resources/README.md)).
+Eingabe ist neben den Korpora die Liste der Zielwörter in
+[resources/zielwoerter.txt](resources/zielwoerter.txt) (siehe [resources/README.md](resources/README.md)).
 
 1. Korpusaufbau (je Quelle; [src/zeitenwende_sgns/collect_data/](src/zeitenwende_sgns/collect_data/))
    - Ggf. Download (für Testdaten)
