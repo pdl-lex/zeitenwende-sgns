@@ -8,5 +8,7 @@ RAW_DIR = DATA_DIR / "raw"
 PREPROCESSED_DIR = DATA_DIR / "preprocessed"
 MODELS_DIR = DATA_DIR / "models"
 
-TARGETS_PATH = DATA_DIR / "masterliste_zielwörter_okt26.csv"
-LEMMA_OVERRIDES_PATH = DATA_DIR / "lemma_overrides.csv"
+RESOURCES_DIR = PROJECT_ROOT / "resources"
+
+TARGETS_PATH = RESOURCES_DIR / "zielwoerter.tsv"
+LEMMA_OVERRIDES_PATH = RESOURCES_DIR / "lemma_overrides.tsv"

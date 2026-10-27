@@ -7,14 +7,8 @@ ADJECTIVE_SUFFIXES = ["", "e", "em", "en", "er", "es"]
 
 
 def load_targets(path=TARGETS_PATH):
-    """Read the target words from the master list (a Mac Roman encoded CSV)"""
-    return (
-        pl.read_csv(path, separator=";", encoding="mac_roman", infer_schema=False)
-        .select(pl.col("Zielwort").str.strip_chars().alias("lemma"))
-        .drop_nulls()
-        .unique(maintain_order=True)["lemma"]
-        .to_list()
-    )
+    """Read the target words from the master list (a UTF-8 TSV)"""
+    return pl.read_csv(path, separator="\t", infer_schema=False)["Zielwort"].to_list()
 
 
 def inflections(target):
