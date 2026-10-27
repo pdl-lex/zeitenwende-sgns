@@ -10,5 +10,5 @@ MODELS_DIR = DATA_DIR / "models"
 
 RESOURCES_DIR = PROJECT_ROOT / "resources"
 
-TARGETS_PATH = RESOURCES_DIR / "zielwoerter.tsv"
+TARGETS_PATH = RESOURCES_DIR / "zielwoerter.txt"
 LEMMA_OVERRIDES_PATH = RESOURCES_DIR / "lemma_overrides.tsv"

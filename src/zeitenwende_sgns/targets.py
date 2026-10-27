@@ -7,8 +7,8 @@ ADJECTIVE_SUFFIXES = ["", "e", "em", "en", "er", "es"]
 
 
 def load_targets(path=TARGETS_PATH):
-    """Read the target words from the master list (a UTF-8 TSV)"""
-    return pl.read_csv(path, separator="\t", infer_schema=False)["Zielwort"].to_list()
+    """Read the target words, one lemma per line"""
+    return path.read_text(encoding="utf-8").splitlines()
 
 
 def inflections(target):
