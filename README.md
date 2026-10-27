@@ -5,6 +5,9 @@ von Embeddings für verschiedene Zeitperioden (jährlich, quartalsweise).
 
 ## Vorgehen
 
+Eingabe ist neben den Korpora die Masterliste der Zielwörter in
+[resources/zielwoerter.tsv](resources/zielwoerter.tsv) (siehe [resources/README.md](resources/README.md)).
+
 1. Korpusaufbau (je Quelle; [src/zeitenwende_sgns/collect_data/](src/zeitenwende_sgns/collect_data/))
    - Ggf. Download (für Testdaten)
    - Vorauswahl relevanter Jahre
@@ -18,8 +21,8 @@ von Embeddings für verschiedene Zeitperioden (jährlich, quartalsweise).
    - Tokenisierung, Satzgrenzen und POS-Tagging mit spaCy (`de_core_news_sm`); Bindestrich-Komposita
      (z. B. „NATO-Partner“) bleiben ein Token
    - Lemmatisierung mit simplemma; alte ß-Schreibung in Lemmata (Rußland, Ausschuß) wird korrigiert
-   - Lemma-Overrides aus `data/lemma_overrides.csv` (Spalten `form`, `lemma`), um alle Formen der
-     Zielwörter sicher auf das Zielwort zurückzuführen. Einen Entwurf erzeugt
+   - Lemma-Overrides aus `resources/lemma_overrides.tsv` (Spalten `form`, `lemma`), um alle Formen
+     der Zielwörter sicher auf das Zielwort zurückzuführen. Einen Entwurf erzeugt
      `targets.draft_overrides` (siehe [notebooks/analyze_preprocessed.ipynb](notebooks/analyze_preprocessed.ipynb))
    - Output: Vorverarbeitete Daten (Parquet-Shards in `data/preprocessed/<source>/`)
    - Laufzeit: siehe [Laufzeit der Vorverarbeitung](#laufzeit-der-vorverarbeitung)
