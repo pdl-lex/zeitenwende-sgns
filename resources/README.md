@@ -1,8 +1,13 @@
 # Ressourcen
 
-## `zielwoerter.tsv`
+## `zielwoerter.txt`
 
-Masterliste der Zielwörter (UTF-8, tabulatorgetrennt, eine Zeile je Zielwort in Lemmaform).
+Liste der Zielwörter, die die Analyse verwendet (UTF-8, ein Zielwort je Zeile in Lemmaform). Sie
+ist aus der Spalte `Zielwort` der Masterliste abgeleitet; Grundformen werden hier korrigiert.
+
+## `master_zielwoerter.tsv`
+
+Masterliste der Zielwörter mit Bewertungen (UTF-8, tabulatorgetrennt, eine Zeile je Zielwort).
 Dezimaltrennzeichen ist der Punkt; Markierungsspalten enthalten `1` oder bleiben leer.
 
 | Spalte | Bedeutung |
