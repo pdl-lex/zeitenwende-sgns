@@ -136,7 +136,7 @@ Streitkraft
 Terrorismus
 Truppe
 Verbrechen
-Verbündeter
+Verbündete
 Waffengewalt
 Beistandspflicht
 Cyber
@@ -169,7 +169,7 @@ Drohneneinsatz
 Drohnenkrieg
 Ertüchtigung
 Eurodrohne
-Fakten
+Fakt
 Gegenoffensive
 Grenzsicherung
 Kalter Krieg
@@ -193,7 +193,7 @@ Luftraumüberwachung
 Luftverteidigung
 Luftverteidigungssystem
 Luftwaffe
-Militärausgaben
+Militärausgabe
 Militäreinsatz
 Moskau
 NATO
@@ -427,9 +427,9 @@ Radikalisierung
 Rekordinvestition
 Rheinmetall
 Russisch
-Rüstungsexporte
+Rüstungsexport
 Rüstungsexportpolitik
-Rüstungsgüter
+Rüstungsgut
 sexuell
 Sicherheitsarchitektur
 Sicherheitslage
@@ -447,10 +447,10 @@ Vernichtung
 Verschwörungstheorie
 Verteidigungsausgabe
 Vormarsch
-Wirtschaftssanktionen
+Wirtschaftssanktion
 Besetzung
 Heldenhaftigkeit
-2_Prozent-Ziel
+2-Prozent-Ziel
 Attentäter
 Aufrüstungsspirale
 Beschaffungsamt
@@ -459,7 +459,7 @@ Blitzkrieg
 Brutalität
 Bundesnachrichtendienst
 Durchhaltefähigkeit
-Einsatzkräfte
+Einsatzkraft
 Einsatzszenario
 Entspannungspolitik
 EU-Russland
@@ -488,18 +488,18 @@ Menschenrechtsverletzung
 Migrationsbewegung
 Migrationshintergrund
 Migrationspolitik
-Migrationsströme
+Migrationsstrom
 Militarisierung
 Militärmacht
 Mittelstreckenrakete
 Nationalstaat
 NATO-geführt
-NATO-Kriterien
+NATO-Kriterium
 NATO-Partner
 NATO-Quote
 NATO-Russland-Grundakte
 NATO-Russland-Rat
-NATO-Verbündet
+NATO-Verbündete
 NATO-Verpflichtung
 Nazi
 Oblast
@@ -597,8 +597,6 @@ Völkerverständigung
 Vorgehen
 Waffenstillstand
 Wehrbeauftragte
-Wehrbeauftragten
-Wehrbeauftragter
 Zivilgesellschaft
 Besoldung
 Hauptquartier
