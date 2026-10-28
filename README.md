@@ -18,6 +18,7 @@ Eingabe ist neben den Korpora die Liste der Zielwörter in
    - Filterung
      - Deduplikation (soweit möglich)
      - Entfernen extrem kurzer/langer Dokumente
+   - Entfernen weicher Trennzeichen (U+00AD)
    - Tokenisierung, Satzgrenzen und POS-Tagging mit spaCy (`de_core_news_sm`); Bindestrich-Komposita
      (z. B. „NATO-Partner“) bleiben ein Token
    - Lemmatisierung mit simplemma; alte ß-Schreibung in Lemmata (Rußland, Ausschuß) wird korrigiert
