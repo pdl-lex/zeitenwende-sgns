@@ -44,6 +44,6 @@ def draft_overrides(preprocessed_dir, targets):
             pl.col("target").alias("lemma_corrected"),
             "count",
         )
-        .sort("count", descending=True)
+        .sort(["count", "form", "lemma_predicted"], descending=[True, False, False])
         .collect(engine="streaming")
     )
