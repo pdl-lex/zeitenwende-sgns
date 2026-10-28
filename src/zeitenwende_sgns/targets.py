@@ -2,7 +2,7 @@ import polars as pl
 
 from zeitenwende_sgns.config import TARGETS_PATH
 
-NOUN_SUFFIXES = ["", "e", "en", "es", "n", "nen", "ns", "s"]
+NOUN_SUFFIXES = ["", "e", "en", "es", "n", "nen", "ns", "r", "s"]
 ADJECTIVE_SUFFIXES = ["", "e", "em", "en", "er", "es"]
 
 
