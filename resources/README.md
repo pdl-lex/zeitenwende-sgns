@@ -29,6 +29,7 @@ Dezimaltrennzeichen ist der Punkt; Markierungsspalten enthalten `1` oder bleiben
 
 ## `lemma_overrides.tsv`
 
-Optionale Korrekturen der Lemmatisierung (UTF-8, tabulatorgetrennt, Spalten `form` und `lemma`).
-Die Vorverarbeitung ordnet jeder Wortform in `form` das Lemma in `lemma` zu. Einen Entwurf erzeugt
+Optionale Korrekturen der Lemmatisierung (UTF-8, tabulatorgetrennt). Die Vorverarbeitung ordnet
+jeder Wortform in `form` das Lemma in `lemma_corrected` zu. `lemma_predicted` (das Lemma ohne
+Korrektur) und `count` (Häufigkeit der Form) dienen nur der Dokumentation. Einen Entwurf erzeugt
 `targets.draft_overrides` (siehe [notebooks/analyze_preprocessed.ipynb](../notebooks/analyze_preprocessed.ipynb)).
