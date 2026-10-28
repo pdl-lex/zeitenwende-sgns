@@ -1,11 +1,13 @@
 import os
 import re
+from collections import ChainMap
 from functools import cache
 from multiprocessing import Pool
 
 import polars as pl
-import simplemma
 import spacy
+from simplemma import Lemmatizer
+from simplemma.strategies import DEFAULT_DICTIONARY_FACTORY, DefaultStrategy
 from tqdm import tqdm
 
 from zeitenwende_sgns.config import LEMMA_OVERRIDES_PATH, PREPROCESSED_DIR, RAW_DIR
@@ -27,16 +29,31 @@ OLD_SPELLING_SZ = re.compile(r"(?<!ei)(?<!ie)(?<!au)(?<!eu)(?<!äu)ß")
 
 # Per-worker state set by the Pool initializer, so the pipeline loads once per process
 nlp = None
-overrides = {}
+lemmatizer = None
+
+
+class OverrideDictionaryFactory:
+    """simplemma dictionary factory that puts the lemma overrides on top of the
+    shipped dictionary, so simplemma's strategies (e.g. for hyphenated compounds)
+    use them as well"""
+
+    def __init__(self, overrides):
+        self.overrides = overrides
+
+    def get_dictionary(self, lang):
+        return ChainMap(self.overrides, DEFAULT_DICTIONARY_FACTORY.get_dictionary(lang))
 
 
 def init_worker(overrides_path=LEMMA_OVERRIDES_PATH):
     """Load the spaCy pipeline (tokenizer, sentence splitter, POS tagger) and the
-    lemma overrides once per worker"""
-    global nlp, overrides
+    lemmatizer with the lemma overrides once per worker"""
+    global nlp, lemmatizer
     nlp = spacy.load("de_core_news_sm", exclude=["parser", "ner", "lemmatizer"])
     nlp.enable_pipe("senter")
-    overrides = load_overrides(overrides_path)
+    factory = OverrideDictionaryFactory(load_overrides(overrides_path))
+    lemmatizer = Lemmatizer(
+        lemmatization_strategy=DefaultStrategy(dictionary_factory=factory)
+    )
 
 
 def load_overrides(path):
@@ -60,9 +77,7 @@ def fix_lemma(text, lemma):
 
 @cache
 def lemmatize(text):
-    if text in overrides:
-        return overrides[text]
-    return fix_lemma(text, simplemma.lemmatize(text, lang="de"))
+    return fix_lemma(text, lemmatizer.lemmatize(text, lang="de"))
 
 
 def find_cut(text, max_chars):
