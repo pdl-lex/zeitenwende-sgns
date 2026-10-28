@@ -1,69 +1,69 @@
-form	lemma
-Fakten	Fakt
-Russlands	Russland
-Putins	Putin
-Geflüchtete	Geflüchtete
-Verbündeten	Verbündete
-Wehrbeauftragten	Wehrbeauftragte
-Verbündete	Verbündete
-Militärische	militärisch
-Russischen	russisch
-Militärausgaben	Militärausgabe
-Sonderschulden	Sonderschuld
-Militärischen	militärisch
-Geflüchteter	Geflüchtete
-Ukrainekrieges	Ukrainekrieg
-Ukrainekriegs	Ukrainekrieg
-Narrativen	Narrativ
-NATO-Verbündeten	NATO-Verbündete
-Wehrpflichtige	Wehrpflichtige
-Wehrpflichtigen	Wehrpflichtige
-Alliierte	Alliierte
-Nukleare	nuklear
-NATO-geführte	NATO-geführt
-Russe	Russe
-Soldatenberufs	Soldatenberuf
-Ukrainisch	ukrainisch
-Wertesystems	Wertesystem
-Patriots	Patriot
-Sicherheitspolitische	sicherheitspolitisch
-Selenskyjs	Selenskyj
-Luftverteidigungssysteme	Luftverteidigungssystem
-Soldatenberufes	Soldatenberuf
-pazifistische	pazifistisch
-Leopards	Leopard
-Nuklearen	nuklear
-Klüngel	Klüngel
-Völkerrechtsbruchs	Völkerrechtsbruch
-Ukrainekonflikts	Ukrainekonflikt
-Rüstungsetats	Rüstungsetat
-Alliierter	Alliierte
-Wehrpflichtiger	Wehrpflichtige
-Einsatzkontingente	Einsatzkontingent
-Europols	Europol
-Migrationshintergrundes	Migrationshintergrund
-NATO-Verbündete	NATO-Verbündete
-Sexuellen	sexuell
-BKAs	BKA
-Mandatsobergrenzen	Mandatsobergrenze
-Einsatzkontingents	Einsatzkontingent
-Energiepolitiken	Energiepolitik
-Luftverteidigungssystemen	Luftverteidigungssystem
-Ukrainischen	ukrainisch
-Sicherheitsgefahren	Sicherheitsgefahr
-Aufrüstungsspiralen	Aufrüstungsspirale
-Einsatzkontingenten	Einsatzkontingent
-Beschaffungsvorhabens	Beschaffungsvorhaben
-Abschreckungspotenzials	Abschreckungspotenzial
-Bundeswehrbeschaffungsbeschleunigungsgesetzes	Bundeswehrbeschaffungsbeschleunigungsgesetz
-Wertesystemen	Wertesystem
-Einsatzkontingentes	Einsatzkontingent
-Fähigkeitsaufbaus	Fähigkeitsaufbau
-Luftverteidigungssystems	Luftverteidigungssystem
-Eurodrohnen	Eurodrohne
-Wertesysteme	Wertesystem
-Sicherheitspolitischen	sicherheitspolitisch
-Skandales	Skandal
-pazifistischem	pazifistisch
-Friedensparteien	Friedenspartei
-Kriegspräsidenten	Kriegspräsident
+form	lemma_predicted	lemma_corrected	count
+Fakten	Faktum	Fakt	2624
+Russlands	Russlands	Russland	1751
+Putins	Putins	Putin	1132
+Geflüchtete	Geflüchteter	Geflüchtete	1067
+Verbündeten	Verbündeter	Verbündete	796
+Wehrbeauftragten	Wehrbeauftragter	Wehrbeauftragte	518
+Verbündete	verbündet	Verbündete	213
+Militärische	Militärische	militärisch	178
+Russischen	Russische	russisch	132
+Militärausgaben	Militärausgaben	Militärausgabe	108
+Sonderschulden	Sonderschulden	Sonderschuld	104
+Militärischen	Militärische	militärisch	97
+Geflüchteter	Geflüchteter	Geflüchtete	91
+Ukrainekrieges	Ukrainekrieges	Ukrainekrieg	87
+Ukrainekriegs	Ukrainekriegs	Ukrainekrieg	46
+Narrativen	Narrative	Narrativ	40
+NATO-Verbündeten	NATO-Verbündeter	NATO-Verbündete	30
+Wehrpflichtige	Wehrpflichtiger	Wehrpflichtige	24
+Wehrpflichtigen	Wehrpflichtiger	Wehrpflichtige	24
+Alliierte	Alliierter	Alliierte	18
+Nukleare	Nukleare	nuklear	17
+NATO-geführte	NATO-Geführte	NATO-geführt	16
+Russe	Russ	Russe	16
+Soldatenberufs	Soldatenberufs	Soldatenberuf	16
+Ukrainisch	Ukrainisch	ukrainisch	13
+Wertesystems	Wertesystems	Wertesystem	12
+Patriots	Patriots	Patriot	12
+Sicherheitspolitische	Sicherheitspolitische	sicherheitspolitisch	12
+Selenskyjs	Selenskyjs	Selenskyj	10
+Luftverteidigungssysteme	Luftverteidigungssysteme	Luftverteidigungssystem	10
+Soldatenberufes	Soldatenberufes	Soldatenberuf	10
+pazifistische	pazifistische	pazifistisch	9
+Leopards	Leopards	Leopard	8
+Nuklearen	Nukleare	nuklear	8
+Klüngel	klüngeln	Klüngel	7
+Völkerrechtsbruchs	Völkerrechtsbruchs	Völkerrechtsbruch	7
+Ukrainekonflikts	Ukrainekonflikts	Ukrainekonflikt	7
+Rüstungsetats	Rüstungsetats	Rüstungsetat	6
+Alliierter	Alliierter	Alliierte	6
+Wehrpflichtiger	Wehrpflichtiger	Wehrpflichtige	6
+Einsatzkontingente	Einsatzkontingente	Einsatzkontingent	5
+Europols	Europols	Europol	5
+Migrationshintergrundes	Migrationshintergrundes	Migrationshintergrund	5
+NATO-Verbündete	NATO-verbündet	NATO-Verbündete	5
+Sexuellen	Sexuelle	sexuell	4
+BKAs	BKAs	BKA	4
+Mandatsobergrenzen	Mandatsobergrenzen	Mandatsobergrenze	3
+Einsatzkontingents	Einsatzkontingents	Einsatzkontingent	3
+Energiepolitiken	Energiepolitiken	Energiepolitik	3
+Luftverteidigungssystemen	Luftverteidigungssystemen	Luftverteidigungssystem	3
+Ukrainischen	Ukrainische	ukrainisch	3
+Sicherheitsgefahren	Sicherheitsgefahren	Sicherheitsgefahr	3
+Aufrüstungsspiralen	Aufrüstungsspiralen	Aufrüstungsspirale	3
+Einsatzkontingenten	Einsatzkontingenten	Einsatzkontingent	3
+Beschaffungsvorhabens	Beschaffungsvorhabens	Beschaffungsvorhaben	2
+Abschreckungspotenzials	Abschreckungspotenzials	Abschreckungspotenzial	2
+Bundeswehrbeschaffungsbeschleunigungsgesetzes	Bundeswehrbeschaffungsbeschleunigungsgesetzes	Bundeswehrbeschaffungsbeschleunigungsgesetz	2
+Wertesystemen	Wertesystemen	Wertesystem	2
+Einsatzkontingentes	Einsatzkontingentes	Einsatzkontingent	2
+Fähigkeitsaufbaus	Fähigkeitsaufbaus	Fähigkeitsaufbau	2
+Luftverteidigungssystems	Luftverteidigungssystems	Luftverteidigungssystem	2
+Eurodrohnen	Eurodrohnen	Eurodrohne	1
+Wertesysteme	Wertesysteme	Wertesystem	1
+Sicherheitspolitischen	Sicherheitspolitische	sicherheitspolitisch	1
+Skandales	Skandales	Skandal	1
+pazifistischem	pazifistischem	pazifistisch	1
+Friedensparteien	Friedensparteien	Friedenspartei	1
+Kriegspräsidenten	Kriegspräsidenten	Kriegspräsident	1
