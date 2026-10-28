@@ -25,6 +25,8 @@ CHUNK_BOUNDARIES = [
     re.compile(r"\s+"),
 ]
 
+SOFT_HYPHEN = "\u00ad"
+
 OLD_SPELLING_SZ = re.compile(r"(?<!ei)(?<!ie)(?<!au)(?<!eu)(?<!äu)ß")
 
 # Per-worker state set by the Pool initializer, so the pipeline loads once per process
@@ -148,7 +150,8 @@ def annotate_batch(texts):
 def process_shard(args):
     input_path, output_path, offset, length = args
     df = pl.scan_parquet(input_path).slice(offset, length).collect()
-    annotations, errors = annotate_batch(df["text"].to_list())
+    texts = df["text"].str.replace_all(SOFT_HYPHEN, "", literal=True)
+    annotations, errors = annotate_batch(texts.to_list())
 
     df = df.with_columns(pl.Series("text_preprocessed", annotations, dtype=ANNOTATION))
 
