@@ -40,8 +40,8 @@ def draft_overrides(preprocessed_dir, targets):
         .filter(pl.col("lemma") != pl.col("target"))
         .select(
             pl.col("text").alias("form"),
-            pl.col("target").alias("lemma"),
-            pl.col("lemma").alias("current_lemma"),
+            pl.col("lemma").alias("lemma_predicted"),
+            pl.col("target").alias("lemma_corrected"),
             "count",
         )
         .sort("count", descending=True)

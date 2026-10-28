@@ -40,12 +40,14 @@ def init_worker(overrides_path=LEMMA_OVERRIDES_PATH):
 
 
 def load_overrides(path):
-    """Read a TSV with `form` and `lemma` columns mapping word forms to lemmas, e.g.
-    to make sure all forms of the target words get the right lemma"""
+    """Read a TSV with `form` and `lemma_corrected` columns mapping word forms to
+    lemmas, e.g. to make sure all forms of the target words get the right lemma"""
     if path is None or not path.exists():
         return {}
-    df = pl.read_csv(path, separator="\t", columns=["form", "lemma"], infer_schema=False)
-    return dict(zip(df["form"], df["lemma"]))
+    df = pl.read_csv(
+        path, separator="\t", columns=["form", "lemma_corrected"], infer_schema=False
+    )
+    return dict(zip(df["form"], df["lemma_corrected"]))
 
 
 def fix_lemma(text, lemma):
