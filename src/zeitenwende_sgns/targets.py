@@ -21,9 +21,9 @@ def inflections(target):
     return forms + [form[0].upper() + form[1:] for form in forms]
 
 
-def draft_overrides(preprocessed_dir, targets):
+def override_candidates(preprocessed_dir, targets):
     """Find word forms that look like inflections of a target word but did not get
-    the target as lemma. Review the result and save the correct rows as
+    the target as lemma. Review the result and copy the correct rows to
     `LEMMA_OVERRIDES_PATH`."""
     candidates = pl.DataFrame(
         [(target, form) for target in targets for form in inflections(target)],
