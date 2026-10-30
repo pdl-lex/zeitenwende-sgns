@@ -31,5 +31,5 @@ Dezimaltrennzeichen ist der Punkt; Markierungsspalten enthalten `1` oder bleiben
 
 Optionale Korrekturen der Lemmatisierung (UTF-8, tabulatorgetrennt). Die Vorverarbeitung ordnet
 jeder Wortform in `form` das Lemma in `lemma_corrected` zu. `lemma_predicted` (das Lemma ohne
-Korrektur) und `count` (Häufigkeit der Form) dienen nur der Dokumentation. Einen Entwurf erzeugt
-`targets.draft_overrides` (siehe [notebooks/analyze_preprocessed.ipynb](../notebooks/analyze_preprocessed.ipynb)).
+Korrektur) und `count` (Häufigkeit der Form) dienen nur der Dokumentation. Kandidaten erzeugt
+`targets.override_candidates` (siehe [notebooks/analyze_preprocessed.ipynb](../notebooks/analyze_preprocessed.ipynb)).

@@ -24,8 +24,8 @@ Eingabe ist neben den Korpora die Liste der Zielwörter in
    - Lemmatisierung mit simplemma; alte ß-Schreibung in Lemmata (Rußland, Ausschuß) wird korrigiert
    - Lemma-Overrides aus `resources/lemma_overrides.tsv` (Spalten `form`, `lemma_corrected`), um
      alle Formen der Zielwörter sicher auf das Zielwort zurückzuführen. Sie ergänzen das Wörterbuch
-     von simplemma und greifen so auch in Bindestrich-Komposita (EU-Verbündeten). Einen Entwurf
-     erzeugt `targets.draft_overrides` (siehe [notebooks/analyze_preprocessed.ipynb](notebooks/analyze_preprocessed.ipynb))
+     von simplemma und greifen so auch in Bindestrich-Komposita (EU-Verbündeten). Kandidaten
+     erzeugt `targets.override_candidates` (siehe [notebooks/analyze_preprocessed.ipynb](notebooks/analyze_preprocessed.ipynb))
    - Output: Vorverarbeitete Daten (Parquet-Shards in `data/preprocessed/<source>/`)
    - Laufzeit: siehe [Laufzeit der Vorverarbeitung](#laufzeit-der-vorverarbeitung)
 3. Analyse I ([notebooks/](notebooks/))
