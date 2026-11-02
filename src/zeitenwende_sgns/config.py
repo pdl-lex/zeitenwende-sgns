@@ -8,6 +8,7 @@ RAW_DIR = DATA_DIR / "raw"
 PREPROCESSED_DIR = DATA_DIR / "preprocessed"
 CORPUS_DIR = DATA_DIR / "corpus"
 MODELS_DIR = DATA_DIR / "models"
+ALIGNED_DIR = DATA_DIR / "aligned"
 
 RESOURCES_DIR = PROJECT_ROOT / "resources"
 
