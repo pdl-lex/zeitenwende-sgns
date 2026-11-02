@@ -1,6 +1,6 @@
 import shutil
-from collections.abc import Collection
-from contextlib import ExitStack
+from collections.abc import Collection, Generator
+from contextlib import ExitStack, contextmanager
 from pathlib import Path
 from typing import Literal
 
@@ -15,6 +15,20 @@ DEFAULT_EXCLUDE_UPOS = frozenset({"PUNCT", "SYM", "SPACE"})
 
 # Add to `exclude_upos` for a corpus without stopwords
 FUNCTION_WORD_UPOS = frozenset({"ADP", "AUX", "CCONJ", "DET", "PART", "PRON", "SCONJ"})
+
+
+@contextmanager
+def replace_dir(output_dir: Path) -> Generator[Path]:
+    """Yield a temporary directory that replaces `output_dir` once the block
+    finishes without error, so a crashed run leaves no half-written output"""
+    tmp_dir = output_dir.with_name(output_dir.name + ".tmp")
+    if tmp_dir.exists():
+        shutil.rmtree(tmp_dir)
+    tmp_dir.mkdir(parents=True)
+    yield tmp_dir
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    tmp_dir.rename(output_dir)
 
 
 def period_label(period: Period) -> pl.Expr:
@@ -66,12 +80,7 @@ def split(
     """Split the preprocessed shards in `input_dir` into time slices and write one
     gensim `corpus_file` per slice to `output_dir` (one sentence of lemmas per
     line). An existing `output_dir` is replaced. Returns the files by label."""
-    tmp_dir = output_dir.with_name(output_dir.name + ".tmp")
-    if tmp_dir.exists():
-        shutil.rmtree(tmp_dir)
-    tmp_dir.mkdir(parents=True)
-
-    with ExitStack() as stack:
+    with replace_dir(output_dir) as tmp_dir, ExitStack() as stack:
         files = {}
         for path in tqdm(sorted(input_dir.glob("*.parquet")), unit="shard"):
             sentences = shard_sentences(path, period, exclude_upos, min_tokens)
@@ -84,15 +93,27 @@ def split(
                     )
                 files[label].write("\n".join(group["sentence"]) + "\n")
 
-    if output_dir.exists():
-        shutil.rmtree(output_dir)
-    tmp_dir.rename(output_dir)
-
     return {label: output_dir / f"{label}.txt" for label in sorted(files)}
+
+
+def combine(corpus_dirs: Collection[Path], output_dir: Path) -> dict[str, Path]:
+    """Concatenate the corpus files of several sources (e.g. the `split` output of
+    each source for the same period) per label, for a model over all sources"""
+    labels = sorted({path.stem for d in corpus_dirs for path in d.glob("*.txt")})
+    with replace_dir(output_dir) as tmp_dir:
+        for label in labels:
+            with open(tmp_dir / f"{label}.txt", "wb") as out:
+                for corpus_dir in corpus_dirs:
+                    path = corpus_dir / f"{label}.txt"
+                    if path.exists():
+                        with open(path, "rb") as f:
+                            shutil.copyfileobj(f, out)
+
+    return {label: output_dir / f"{label}.txt" for label in labels}
 
 
 if __name__ == "__main__":
     SOURCE = "cpp_bt"
-    PERIOD = "year"
+    PERIOD = "quarter"
 
     split(PREPROCESSED_DIR / SOURCE, CORPUS_DIR / SOURCE / PERIOD, period=PERIOD)
