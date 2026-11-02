@@ -10,6 +10,7 @@ requires-python = ">=3.12"
 dependencies = [
     "de-core-news-sm",
     "ipykernel>=7.4.0",
+    "matplotlib>=3.11.2",
     "polars>=2.0.0",
     "requests>=2.34.2",
     "simplemma>=2.0.0",
