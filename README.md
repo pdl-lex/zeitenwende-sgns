@@ -42,8 +42,10 @@ Eingabe ist neben den Korpora die Liste der Zielwörter in
 5. Training ([src/zeitenwende_sgns/train.py](src/zeitenwende_sgns/train.py))
    - Embeddings trainieren (SGNS mit gensim Word2Vec)
      1. Ein Modell je Quelle und Zeitscheibe
-     2. Ein Modell über alle Quellen je Zeitscheibe
-   - Output: Modelle je Zeitscheibe(/Quelle)
+     2. Ein Modell über alle Quellen je Zeitscheibe (Korpora vorher mit `split.combine` zusammenführen)
+   - Hyperparameter nach Hamilton et al. (2016): 300 Dimensionen, Fenster 4, 5 Negative Samples,
+     Subsampling 1e-5, Mindestfrequenz 5, 5 Epochen
+   - Output: Wortvektoren (`KeyedVectors`) in `data/models/<source>/<period>/<label>.kv`
 6. Procrustes-Alignment ([src/zeitenwende_sgns/align.py](src/zeitenwende_sgns/align.py))
    - Je Subkorpus (analog zu 5.)
    - Output:
