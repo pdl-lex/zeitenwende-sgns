@@ -33,8 +33,12 @@ Eingabe ist neben den Korpora die Liste der Zielwörter in
    - Je nach Distribution Periodisierung wählen
 4. Filtern und Sampling ([src/zeitenwende_sgns/split.py](src/zeitenwende_sgns/split.py))
    - Evtl. Sampling (Frequenzen der Zielwörter normalisieren)
-   - Splitten in Zeitscheiben
-   - Als `corpus_file`s speichern
+   - Splitten in Zeitscheiben (`period`: Jahre, Halbjahre oder Quartale)
+   - Lemmata ohne Satzzeichen (UPOS `PUNCT`, `SYM`); Stoppwörter bleiben erhalten, da Word2Vec
+     häufige Wörter ohnehin heruntersamplet (`FUNCTION_WORD_UPOS` zusätzlich ausschließen für
+     eine Variante ohne Stoppwörter)
+   - Output: `corpus_file`s für gensim (ein Satz pro Zeile) in
+     `data/corpus/<source>/<period>/<label>.txt`, z. B. `2022.txt`, `2022-H1.txt`, `2022-Q1.txt`
 5. Training ([src/zeitenwende_sgns/train.py](src/zeitenwende_sgns/train.py))
    - Embeddings trainieren (SGNS mit gensim Word2Vec)
      1. Ein Modell je Quelle und Zeitscheibe
