@@ -48,9 +48,13 @@ Eingabe ist neben den Korpora die Liste der Zielwörter in
    - Output: Wortvektoren (`KeyedVectors`) in `data/models/<source>/<period>/<label>.kv`
 6. Procrustes-Alignment ([src/zeitenwende_sgns/align.py](src/zeitenwende_sgns/align.py))
    - Je Subkorpus (analog zu 5.)
+   - Orthogonales Procrustes nach Hamilton et al. (2016): Vektoren auf Einheitslänge normieren,
+     dann jede Zeitscheibe der Reihe nach auf die bereits alignierte vorherige rotieren (Ankerwörter
+     sind das gemeinsame Vokabular; Wörter, die nur in einer Scheibe vorkommen, werden mitrotiert)
    - Output:
      - Ein aligniertes Gesamtmodell über alle Quellen
      - Ein aligniertes Modell je Quelle
+     - Wortvektoren (`KeyedVectors`) in `data/aligned/<source>/<period>/<label>.kv`
 7. Analyse II ([notebooks/](notebooks/))
    - Qualitative Sichtung der Vektoren, Nachbarn von Zielwörtern, Clustering
    - Visualisierung ([src/zeitenwende_sgns](src/zeitenwende_sgns))
