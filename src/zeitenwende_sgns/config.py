@@ -6,6 +6,7 @@ DATA_DIR = PROJECT_ROOT / "data"
 PDF_DIR = DATA_DIR / "pdfs"
 RAW_DIR = DATA_DIR / "raw"
 PREPROCESSED_DIR = DATA_DIR / "preprocessed"
+CORPUS_DIR = DATA_DIR / "corpus"
 MODELS_DIR = DATA_DIR / "models"
 
 RESOURCES_DIR = PROJECT_ROOT / "resources"
