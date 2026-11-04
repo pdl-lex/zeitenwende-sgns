@@ -56,15 +56,17 @@ def train(
     vector_size: int = 300,
     window: int = 4,
     negative: int = 5,
-    sample: float = 1e-5,
+    sample: float = 1e-4,
     min_count: int = 5,
-    epochs: int = 5,
+    epochs: int = 10,
     workers: int | None = None,
     seed: int = 1,
 ) -> KeyedVectors:
     """Train SGNS embeddings on a gensim `corpus_file` and save the word vectors to
-    `output_path`. Defaults follow Hamilton et al. (2016). Runs with more than one
-    worker are not exactly reproducible despite the seed."""
+    `output_path`. Defaults follow Hamilton et al. (2016), except for weaker
+    subsampling and more epochs, without which the vectors of the small time slices
+    hardly move away from each other. Runs with more than one worker are not
+    exactly reproducible despite the seed."""
     with suppress_gensim_dot_warning():
         model = Word2Vec(
             corpus_file=str(corpus_file),
