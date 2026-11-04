@@ -88,12 +88,16 @@ def train(
 
 def train_slices(corpus_dir: Path, output_dir: Path, **params) -> dict[str, Path]:
     """Train one model per corpus file in `corpus_dir` (as written by `split`) and
-    save them as `<label>.kv` to `output_dir`. Existing models are skipped, so an
-    interrupted run can simply be restarted. Returns the models by label."""
+    save them as `<label>.kv` to `output_dir`. Models newer than their corpus file
+    are skipped, so an interrupted run can simply be restarted, while a new `split`
+    triggers retraining. Returns the models by label."""
     models = {}
     for corpus_file in tqdm(sorted(corpus_dir.glob("*.txt")), unit="slice"):
         output_path = output_dir / f"{corpus_file.stem}.kv"
-        if not output_path.exists():
+        if (
+            not output_path.exists()
+            or output_path.stat().st_mtime < corpus_file.stat().st_mtime
+        ):
             train(corpus_file, output_path, **params)
         models[corpus_file.stem] = output_path
     return models
