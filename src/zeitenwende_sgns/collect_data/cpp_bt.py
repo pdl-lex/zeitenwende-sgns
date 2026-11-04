@@ -51,11 +51,17 @@ if __name__ == "__main__":
 
     df = (
         load_cpp_bt_corpus()
-        .select(pl.col("sitzung_datum").alias("date"), pl.col("rede_text").alias("text"))
-        .filter(pl.col("date").is_between(date(START_YEAR, 1, 1), date(END_YEAR, 12, 31)))
+        .select(
+            pl.col("sitzung_datum").alias("date"), pl.col("rede_text").alias("text")
+        )
+        .filter(
+            pl.col("date").is_between(date(START_YEAR, 1, 1), date(END_YEAR, 12, 31))
+        )
         .sort("date", maintain_order=True)
         .with_columns(
-            pl.col("text").map_elements(create_doc_id, return_dtype=pl.String).alias("doc_id")
+            pl.col("text")
+            .map_elements(create_doc_id, return_dtype=pl.String)
+            .alias("doc_id")
         )
         .unique(subset="doc_id", keep="first", maintain_order=True)
         .select("date", "doc_id", "text")
