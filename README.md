@@ -55,8 +55,9 @@ Eingabe ist neben den Korpora die Liste der Zielwörter in
      - Ein aligniertes Gesamtmodell über alle Quellen
      - Ein aligniertes Modell je Quelle
      - Wortvektoren (`KeyedVectors`) in `data/aligned/<source>/<period>/<label>.kv`
-7. Analyse II ([notebooks/](notebooks/))
+7. Analyse II ([notebooks/analyze_aligned.ipynb](notebooks/analyze_aligned.ipynb))
    - Qualitative Sichtung der Vektoren, Nachbarn von Zielwörtern, Clustering
+   - Nächste Nachbarn je Zeitscheibe ([src/zeitenwende_sgns/neighbors.py](src/zeitenwende_sgns/neighbors.py))
    - Visualisierung ([src/zeitenwende_sgns](src/zeitenwende_sgns))
 
 ## Laufzeit der Vorverarbeitung
