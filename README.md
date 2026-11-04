@@ -48,7 +48,11 @@ Eingabe ist neben den Korpora die Liste der Zielwörter in
      1. Ein Modell je Quelle und Zeitscheibe
      2. Ein Modell über alle Quellen je Zeitscheibe (Korpora vorher mit `split.combine` zusammenführen)
    - Hyperparameter nach Hamilton et al. (2016): 300 Dimensionen, Fenster 4, 5 Negative Samples,
-     Subsampling 1e-5, Mindestfrequenz 5, 5 Epochen
+     Mindestfrequenz 5
+   - Abweichend davon Subsampling 1e-4 statt 1e-5 und 10 statt 5 Epochen: Mit Hamiltons Werten
+     verwirft das Subsampling auf einem Quartal (ca. 750.000 Tokens) über 80 % der Tokens, und die
+     Vektoren bleiben nahezu ununterscheidbar (mittlere Kosinus-Ähnlichkeit zufälliger Wortpaare
+     ≈ 1,0; mit den neuen Werten ≈ 0,65)
    - Output: Wortvektoren (`KeyedVectors`) in `data/models/<source>/<period>/<label>.kv`
 6. Procrustes-Alignment ([src/zeitenwende_sgns/align.py](src/zeitenwende_sgns/align.py))
    - Je Subkorpus (analog zu 5.)
