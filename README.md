@@ -58,6 +58,8 @@ Eingabe ist neben den Korpora die Liste der Zielwörter in
 7. Analyse II ([notebooks/analyze_aligned.ipynb](notebooks/analyze_aligned.ipynb))
    - Qualitative Sichtung der Vektoren, Nachbarn von Zielwörtern, Clustering
    - Nächste Nachbarn je Zeitscheibe ([src/zeitenwende_sgns/neighbors.py](src/zeitenwende_sgns/neighbors.py))
+   - Diachrone Ähnlichkeitsmatrizen nach Kiyama et al. (2025): Kosinus-Ähnlichkeit der Vektoren
+     eines Wortes zwischen allen Paaren von Zeitscheiben
    - Visualisierung ([src/zeitenwende_sgns](src/zeitenwende_sgns))
 
 ## Laufzeit der Vorverarbeitung
