@@ -37,6 +37,10 @@ Eingabe ist neben den Korpora die Liste der Zielwörter in
    - Lemmata ohne Satzzeichen (UPOS `PUNCT`, `SYM`); Stoppwörter bleiben erhalten, da Word2Vec
      häufige Wörter ohnehin heruntersamplet (`FUNCTION_WORD_UPOS` zusätzlich ausschließen für
      eine Variante ohne Stoppwörter)
+   - Zahlen werden maskiert, damit ihre Nachbarn nicht von einzelnen, je Zeitscheibe wechselnden
+     Zahlen dominiert werden: Jahreszahlen (1800–2099) werden zu `<year>`, andere Zahlen (3, 3,5,
+     1.000, 1.) zu `<num>`; Komposita wie „90er-Jahre“ bleiben erhalten (`keep_numbers=True` für
+     eine Variante ohne Maskierung)
    - Output: `corpus_file`s für gensim (ein Satz pro Zeile) in
      `data/corpus/<source>/<period>/<label>.txt`, z. B. `2022.txt`, `2022-H1.txt`, `2022-Q1.txt`
 5. Training ([src/zeitenwende_sgns/train.py](src/zeitenwende_sgns/train.py))
@@ -61,6 +65,28 @@ Eingabe ist neben den Korpora die Liste der Zielwörter in
    - Diachrone Ähnlichkeitsmatrizen nach Kiyama et al. (2025): Kosinus-Ähnlichkeit der Vektoren
      eines Wortes zwischen allen Paaren von Zeitscheiben
    - Visualisierung ([src/zeitenwende_sgns](src/zeitenwende_sgns))
+
+## Ausführung
+
+Umgebung einrichten:
+
+```sh
+uv sync
+```
+
+Pipeline für eine Quelle in Reihenfolge ausführen (aus dem Projektverzeichnis):
+
+```sh
+uv run python -m zeitenwende_sgns.collect_data.cpp_bt  # 1. Korpusaufbau (einmalig)
+uv run python -m zeitenwende_sgns.preprocess           # 2. Vorverarbeitung
+uv run python -m zeitenwende_sgns.split                # 4. Splitten in Zeitscheiben
+uv run python -m zeitenwende_sgns.train                # 5. Training
+uv run python -m zeitenwende_sgns.align                # 6. Procrustes-Alignment
+```
+
+Quelle (`SOURCE`) und Periodisierung (`PERIOD`) sind im `__main__`-Block des jeweiligen Moduls
+festgelegt (derzeit `cpp_bt` und `quarter`) und müssen in allen Schritten übereinstimmen. Die
+Analysen (3. und 7.) laufen in den Notebooks in [notebooks/](notebooks/).
 
 ## Laufzeit der Vorverarbeitung
 
