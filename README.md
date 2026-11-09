@@ -92,6 +92,55 @@ Quelle (`SOURCE`) und Periodisierung (`PERIOD`) sind im `__main__`-Block des jew
 festgelegt (derzeit `cpp_bt` und `quarter`) und müssen in allen Schritten übereinstimmen. Die
 Analysen (3. und 7.) laufen in den Notebooks in [notebooks/](notebooks/).
 
+## Betrieb ohne Internetzugang
+
+Auf den Rechnern mit den urheberrechtlich geschützten Daten gibt es kein Internet. Die Einrichtung
+erfolgt vorher mit Internetzugang, ggf. zusammen mit
+[extraceval](https://github.com/fsimonjetz/extraceval) für die PDF-Extraktion. Alles liegt an
+gemeinsamen Orten, damit es nicht im Home-Verzeichnis des einrichtenden Nutzers landet:
+
+1. Umgebungsvariablen für alle Nutzer setzen, z. B. in `/etc/profile.d/zeitenwende.sh`:
+
+   ```sh
+   export UV_PYTHON_INSTALL_DIR=/opt/uv/python  # von uv installiertes Python
+   export HF_HOME=/opt/hf-cache                 # Modelle von Docling (extraceval)
+   ```
+
+2. `git` und `uv` systemweit installieren:
+
+   ```sh
+   curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local/bin sh
+   ```
+
+3. Repositorys am endgültigen Ort klonen (z. B. `/opt/zeitenwende-sgns`, `/opt/extraceval`) und
+   jeweils `uv sync` ausführen (`.venv` nicht nachträglich verschieben oder kopieren, es enthält
+   absolute Pfade). Ein privates Repository lässt sich als Datei übergeben
+   (`git bundle create extraceval.bundle --all`, dann `git clone extraceval.bundle`)
+4. In `extraceval` die Modelle laden: `uv run extraceval init` (alle Tools müssen `ok` melden)
+5. Rechte für eine gemeinsame Gruppe setzen:
+
+   ```sh
+   chgrp -R <gruppe> /opt/zeitenwende-sgns /opt/extraceval /opt/hf-cache
+   chmod -R g+rwX /opt/zeitenwende-sgns /opt/extraceval /opt/hf-cache
+   chmod -R a+rX /opt/uv
+   ```
+
+6. Offline-Betrieb in `/etc/profile.d/zeitenwende.sh` ergänzen:
+
+   ```sh
+   export UV_OFFLINE=1 UV_NO_SYNC=1 HF_HUB_OFFLINE=1
+   ```
+
+   `uv run` prüft sonst bei jedem Aufruf die Umgebung und versucht, Pakete nachzuladen, z. B. die
+   per URL eingebundene Abhängigkeit `de_core_news_sm` (GitHub) oder Teile von PyTorch.
+7. Notebook-Oberfläche bereitstellen (JupyterLab oder VS Code mit Python- und Jupyter-Erweiterung)
+8. Rohdaten nach `data/raw/<source>/` kopieren (der Download in `collect_data` funktioniert offline
+   nicht)
+
+Offline lässt sich der Code unter `src/` beliebig ändern; neue Abhängigkeiten (`uv add`) oder
+andere Änderungen an den Abhängigkeiten in `pyproject.toml` sind dagegen nicht möglich. Alle
+benötigten Pakete müssen also vor der Einrichtung im Projekt stehen.
+
 ## Laufzeit der Vorverarbeitung
 
 Referenzlauf: `cpp_bt` (Bundestagsreden, 77.517 Dokumente, 307 Mio. Zeichen, 50,4 Mio. Tokens)
