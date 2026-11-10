@@ -67,6 +67,9 @@ echo "==> Downloading extraction models"
 mkdir -p "$HF_HOME"
 (cd "$PREFIX/extraceval" && "$UV" run --no-sync extraceval init)
 
+echo "==> Clearing the uv cache"
+"$UV" cache clean
+
 echo "==> Setting permissions"
 shared=("$PREFIX/zeitenwende-sgns" "$PREFIX/extraceval" "$HF_HOME")
 chgrp -R "$GROUP" "${shared[@]}"
@@ -85,6 +88,6 @@ cat <<EOF
 
 Done. Remaining steps:
   - Log in again (or 'source $PROFILE') to pick up the environment.
-  - Provide a notebook interface (JupyterLab, or VS Code with the Python and Jupyter extensions).
+  - Start JupyterLab with 'uv run jupyter lab' in $PREFIX/zeitenwende-sgns.
   - Copy the raw data to $PREFIX/zeitenwende-sgns/data/raw/<source>/.
 EOF

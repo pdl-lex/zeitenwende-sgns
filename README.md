@@ -143,7 +143,7 @@ Das Skript lässt sich erneut ausführen, um beide Repositorys zu aktualisieren.
 
    `uv run` prüft sonst bei jedem Aufruf die Umgebung und versucht, Pakete nachzuladen, z. B. die
    per URL eingebundene Abhängigkeit `de_core_news_sm` (GitHub) oder Teile von PyTorch.
-7. Notebook-Oberfläche bereitstellen (JupyterLab oder VS Code mit Python- und Jupyter-Erweiterung)
+7. Notebooks laufen in JupyterLab (Teil der Abhängigkeiten): `uv run jupyter lab` im Projektverzeichnis
 8. Rohdaten nach `data/raw/<source>/` kopieren (der Download in `collect_data` funktioniert offline
    nicht)
 

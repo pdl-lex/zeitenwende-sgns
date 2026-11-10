@@ -11,6 +11,7 @@ dependencies = [
     "de-core-news-sm",
     "gensim>=4.4.0",
     "ipykernel>=7.4.0",
+    "jupyterlab>=4.6.6",
     "matplotlib>=3.11.2",
     "polars>=2.0.0",
     "requests>=2.34.2",
