@@ -97,7 +97,17 @@ Analysen (3. und 7.) laufen in den Notebooks in [notebooks/](notebooks/).
 Auf den Rechnern mit den urheberrechtlich geschützten Daten gibt es kein Internet. Die Einrichtung
 erfolgt vorher mit Internetzugang, ggf. zusammen mit
 [extraceval](https://github.com/fsimonjetz/extraceval) für die PDF-Extraktion. Alles liegt an
-gemeinsamen Orten, damit es nicht im Home-Verzeichnis des einrichtenden Nutzers landet:
+gemeinsamen Orten, damit es nicht im Home-Verzeichnis des einrichtenden Nutzers landet.
+
+Die Schritte 1–6 erledigt [scripts/setup_offline.sh](scripts/setup_offline.sh) (Linux, als root,
+mit Internetzugang; `git` und `curl` müssen installiert sein):
+
+```sh
+curl -LsSf https://raw.githubusercontent.com/pdl-lex/zeitenwende-sgns/main/scripts/setup_offline.sh \
+  | sudo bash -s -- <gruppe> [/opt]
+```
+
+Das Skript lässt sich erneut ausführen, um beide Repositorys zu aktualisieren. Von Hand:
 
 1. Umgebungsvariablen für alle Nutzer setzen, z. B. in `/etc/profile.d/zeitenwende.sh`:
 
